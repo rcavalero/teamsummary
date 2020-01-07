@@ -9,20 +9,6 @@
     //  an intern may provide their school, whereas an engineer may provide their GitHub username.
     // Your app will run as a Node CLI to gather information about each employee.
 
-
-// In the Develop folder, there is a package.json, so make sure to npm install.
-
-// The dependencies are, jest for running the provided tests, and inquirer for collecting input from the user.
-
-// There are also unit tests to help you build the classes necessary.
-
-// It is recommended that you follow this workflow:
-
-// Run tests
-// Create or update classes to pass a single test case
-// Repeat
-// 🎗 Remember, you can run the tests at any time with npm run test
-
 // *** Hints ***
 // Create multiple HTML templates for each type of user. For example, you could use the following templates:
     // main.html
@@ -40,42 +26,16 @@
     // User can use the CLI to generate an HTML page that displays information about their team.
     // All tests must pass.
 
-// Classes
-    // The project must have the these classes: Employee, Manager, Engineer, Intern. The tests for these classes in the tests directory must all pass.
-    // The first class is an Employee parent class with the following properties and methods:
-        // name
-        // id
-        // title
-        // getName()
-        // getId()
-        // getEmail()
-        // getRole() // Returns 'Employee'
-        // The other three classes will extend Employee.
+// User input
+    // The project must prompt the user to build an engineering team. An engineering team consists of a manager, and any number of engineers and interns.
 
-    // In addition to Employee's properties and methods, Manager will also have:
-        // officeNumber
-        // getRole() // Overridden to return 'Manager'
-
-    // In addition to Employee's properties and methods, Engineer will also have:
-        // github // GitHub username
-        // getGithub()
-        // getRole() // Overridden to return 'Engineer'
-
-    // In addition to Employee's properties and methods, Intern will also have:
-        // school
-        // getSchool()
-        // getRole() // Overridden to return 'Intern'
-
-    // User input
-        // The project must prompt the user to build an engineering team. An engineering team consists of a manager, and any number of engineers and interns.
-
-    // Roster output
-        // The project must generate a team.html page in the output directory, that displays a nicely formatted team roster. Each team member should
-        //  display the following in no particular order:
-            // Name
-            // Role
-            // ID
-            // Role-specific property (School, link to GitHub profile, or office number)
+// Roster output
+    // The project must generate a team.html page in the output directory, that displays a nicely formatted team roster. Each team member should
+    //  display the following in no particular order:
+        // Name
+        // Role
+        // ID
+        // Role-specific property (School, link to GitHub profile, or office number)
 
     // *** Bonus ***
         // Use validation to ensure that the information provided is in the proper expected format.
@@ -88,8 +48,11 @@
         // Optional: GIF of your CLI applications functionality
 
 // *** To Do List ***
-// npm install
-
+    // create prompts for user input
+    // Create HTML templates for each type of team member.
+    // create main html template
+    // readme file
+    // bonus items
 
 
 
@@ -97,3 +60,6 @@
 
 
 // Coding starts here
+
+
+
