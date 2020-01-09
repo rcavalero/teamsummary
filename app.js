@@ -48,18 +48,100 @@
         // Optional: GIF of your CLI applications functionality
 
 // *** To Do List ***
-    // create prompts for user input
     // Create HTML templates for each type of team member.
     // create main html template
+    // create function to build html file with all the cards
+    // add some individuality to the webpage
     // readme file
+    // should email be a field in the class?
+
     // bonus items
-
-
-
-
 
 
 // Coding starts here
 
+const inquirer = require("inquirer");
+const Employee = require("./lib/employee");
+const Manager = require("./lib/manager");
+const Engineer = require("./lib/engineer");
+const Intern = require("./lib/intern");
+
+// need function to write HTML file
+
+// this will contain the html cards for each employee
+const empData = [];
+
+let empId = 1;
+
+const empQuestions = [
+    { type: "input", message: "Enter Name", name: "name" },
+    { type: "input", message: "Enter email address", name: "email" },
+];
+const mgrQuestion = [
+    { type: "input", message: "Enter office number", name: "officeNumber" },  // manager
+];
+const engQuestion = [
+    { type: "input", message: "Enter Engineer's GitHub username", name: "username" }, // engineers
+];
+const intQuestion = [
+    { type: "input", message: "Where did Intern go to school?", name: "school" }, // interns
+];
+const addEmpQuestion = [
+    { type: "list",  message: "Do you want to add a team member?",choices: ["Engineer", "Intern","No"], name: "role"}
+];
 
 
+async function getMgrData () {
+    try {
+        let empData = await inquirer.prompt(empQuestions);
+        let mgrData = await inquirer.prompt(mgrQuestion);
+        const manager = new Manager(empData.name,empId,empData.email,mgrData.officeNumber);
+        empId ++;
+        console.log(manager);
+        // need to add code to feed manager into html then push it to the array
+        addTeamMember();
+    } catch (err) {
+        console.log(err);
+    };
+}
+
+async function addTeamMember () {
+    try {
+        let addEmployee = await inquirer.prompt(addEmpQuestion);
+            let role = addEmployee.role
+            if (role === "No") {
+                generateHTML();
+            } else { getEmpData(role)};
+    } catch (err) {
+        console.log(err);
+    };
+}
+
+async function getEmpData (role) {
+    try {
+        let empData = await inquirer.prompt(empQuestions);
+        if (role === "Engineer") {
+            let engData = await inquirer.prompt(engQuestion);
+            const engineer = new Engineer(empData.name,empId,empData.email,engData.username);
+            console.log(engineer);
+        } else {
+        let intData = await inquirer.prompt(intQuestion);
+        const intern = new Intern(empData.name,empId,empData.email,intData.school);
+        console.log(intern);
+        };
+        empId ++;
+        // need to add code to feed team member into html then push it to the array
+        addTeamMember();
+    } catch (err) {
+        console.log(err);
+    };
+}
+
+function generateHTML(){
+    //         const html = generateHTML.generateHTML(data);
+    //         writeFileAsync("../../index.html", html);
+    console.log("Work in Progress")
+}
+getMgrData();
+
+    
