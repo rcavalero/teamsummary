@@ -9,13 +9,6 @@
     //  an intern may provide their school, whereas an engineer may provide their GitHub username.
     // Your app will run as a Node CLI to gather information about each employee.
 
-// *** Hints ***
-// Create multiple HTML templates for each type of user. For example, you could use the following templates:
-    // main.html
-    // engineer.html
-    // intern.html
-    // manager.html
-
 // You will want to make your methods as pure as possible. This means try to make your methods simple so that they are easier to test.
 // The different employee types should all inherit some methods and properties from a base class of Employee.
 // In your HTML template files, you may want to add a placeholder character that helps your program identify where the dynamic markup begins and ends.
@@ -48,28 +41,32 @@
         // Optional: GIF of your CLI applications functionality
 
 // *** To Do List ***
-    // Create HTML templates for each type of team member.
-    // create main html template
-    // create function to build html file with all the cards
-    // add some individuality to the webpage
+    // Add title bar  "Manager's Team Summary"
+    // Add welcome and information prompt
     // readme file
     // should email be a field in the class?
 
     // bonus items
-
+        // Use validation to ensure that the information provided is in the proper expected format.
+        // Add the application to your portfolio.
+        // Optional: GIF of your CLI applications functionality
 
 // Coding starts here
-
+const fs = require("fs");
 const inquirer = require("inquirer");
 const Employee = require("./lib/employee");
 const Manager = require("./lib/manager");
 const Engineer = require("./lib/engineer");
 const Intern = require("./lib/intern");
+const generateTeamHTML = require("./lib/generateTeamHTML");
+const util = require("util");
+const writeFileAsync = util.promisify(fs.writeFile);
+
 
 // need function to write HTML file
 
 // this will contain the html cards for each employee
-const empData = [];
+const teamHTML = [];
 
 let empId = 1;
 
@@ -97,8 +94,7 @@ async function getMgrData () {
         let mgrData = await inquirer.prompt(mgrQuestion);
         const manager = new Manager(empData.name,empId,empData.email,mgrData.officeNumber);
         empId ++;
-        console.log(manager);
-        // need to add code to feed manager into html then push it to the array
+        teamHTML.push(manager.getHTML(manager));
         addTeamMember();
     } catch (err) {
         console.log(err);
@@ -110,7 +106,7 @@ async function addTeamMember () {
         let addEmployee = await inquirer.prompt(addEmpQuestion);
             let role = addEmployee.role
             if (role === "No") {
-                generateHTML();
+                generateHTMLFile();
             } else { getEmpData(role)};
     } catch (err) {
         console.log(err);
@@ -123,24 +119,23 @@ async function getEmpData (role) {
         if (role === "Engineer") {
             let engData = await inquirer.prompt(engQuestion);
             const engineer = new Engineer(empData.name,empId,empData.email,engData.username);
-            console.log(engineer);
+            teamHTML.push(engineer.getHTML(engineer));
         } else {
         let intData = await inquirer.prompt(intQuestion);
         const intern = new Intern(empData.name,empId,empData.email,intData.school);
-        console.log(intern);
+        teamHTML.push(intern.getHTML(intern));
         };
         empId ++;
-        // need to add code to feed team member into html then push it to the array
         addTeamMember();
     } catch (err) {
         console.log(err);
     };
 }
 
-function generateHTML(){
-    //         const html = generateHTML.generateHTML(data);
-    //         writeFileAsync("../../index.html", html);
-    console.log("Work in Progress")
+function generateHTMLFile(data){
+            const html = generateTeamHTML.generateTeamHTML(teamHTML);
+            writeFileAsync("./output/team.html", html);
+    console.log("Success")
 }
 getMgrData();
 
