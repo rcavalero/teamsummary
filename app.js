@@ -41,7 +41,6 @@
         // Optional: GIF of your CLI applications functionality
 
 // *** To Do List ***
-    // Add title bar  "Manager's Team Summary"
     // Add welcome and information prompt
     // readme file
     // should email be a field in the class?
@@ -67,11 +66,15 @@ const writeFileAsync = util.promisify(fs.writeFile);
 
 // this will contain the html cards for each employee
 const teamHTML = [];
+let mgrName = "";
 
 let empId = 1;
 
+const welcome = [
+    { type: "input", message: "Team Summary - Enter Manager's Info then add Team Members. (press any key to continue)", name: "proceed"},  
+];
 const empQuestions = [
-    { type: "input", message: "Enter Name", name: "name" },
+    { type: "input", message: "Enter Name", name: "name"},
     { type: "input", message: "Enter email address", name: "email" },
 ];
 const mgrQuestion = [
@@ -87,13 +90,14 @@ const addEmpQuestion = [
     { type: "list",  message: "Do you want to add a team member?",choices: ["Engineer", "Intern","No"], name: "role"}
 ];
 
-
 async function getMgrData () {
     try {
+        let start = await inquirer.prompt(welcome);
         let empData = await inquirer.prompt(empQuestions);
         let mgrData = await inquirer.prompt(mgrQuestion);
         const manager = new Manager(empData.name,empId,empData.email,mgrData.officeNumber);
         empId ++;
+        mgrName = manager.name;
         teamHTML.push(manager.getHTML(manager));
         addTeamMember();
     } catch (err) {
@@ -132,10 +136,10 @@ async function getEmpData (role) {
     };
 }
 
-function generateHTMLFile(data){
-            const html = generateTeamHTML.generateTeamHTML(teamHTML);
+function generateHTMLFile(){
+            const html = generateTeamHTML.generateTeamHTML(teamHTML,mgrName);
             writeFileAsync("./output/team.html", html);
-    console.log("Success")
+    console.log("File team.html was generated and placed in the output folder")
 }
 getMgrData();
 
